@@ -58,18 +58,18 @@ if ( !class_exists('IamportPaymentInfo') ) {
 				return require_once(dirname(__FILE__).'/../view/history/order-view.php');
 			}
 
-			return '주문정보를 찾을 수 없습니다.';
+			return __('주문정보를 찾을 수 없습니다.', 'iamport-payment');
 		}
 
 		public function hook_thankyou_page($atts, $content = null) {
 			global $wp;
-			if ( empty($wp->query_vars['iamport-order-received']) )	return '파라메터라 누락되었습니다. 관리자에게 문의해주세요.';
+			if ( empty($wp->query_vars['iamport-order-received']) )	return __('파라메터라 누락되었습니다. 관리자에게 문의해주세요.', 'iamport-payment');
 
 			$order_uid = $wp->query_vars['iamport-order-received'];
 			$redirect_after = $wp->query_vars['redirect-after'];
 
 			$iamport_order = IamportOrder::find_by_order_uid($order_uid);
-			if ( empty($iamport_order) ) return '주문정보를 찾을 수 없습니다.';
+			if ( empty($iamport_order) ) return __('주문정보를 찾을 수 없습니다.', 'iamport-payment');
 
 			//무료 주문 처리
 			if ($iamport_order->is_free()) {
@@ -88,7 +88,7 @@ if ( !class_exists('IamportPaymentInfo') ) {
 
 			if ( $iamport_result->success ) {
 				if ( floatval($iamport_result->data->amount) != $iamport_order->get_order_amount() ) {
-					return '결제요청금액과 승인된 금액이 다릅니다. 비정상적인 시도입니다.';
+					return __('결제요청금액과 승인된 금액이 다릅니다. 비정상적인 시도입니다.', 'iamport-payment');
 				}
 
 				//결제완료처리

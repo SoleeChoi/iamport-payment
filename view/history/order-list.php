@@ -8,11 +8,11 @@
 	<table class="iamport-order-list">
 		<thead>
 			<tr>
-				<th class="column-primary">주문명</th>
-				<th>주문번호</th>
-				<th>결제수단</th>
-				<th>주문일자</th>
-				<th>주문상태</th>
+				<th class="column-primary"><?=__('주문명', 'iamport-payment')?></th>
+				<th><?=__('주문번호', 'iamport-payment')?></th>
+				<th><?=__('결제수단', 'iamport-payment')?></th>
+				<th><?=__('주문일자', 'iamport-payment')?></th>
+				<th><?=__('주문상태', 'iamport-payment')?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -22,24 +22,24 @@
 				<td class="column-primary">
 					<?=$p->post_title?>
 					<span class="mobile-content">
-						<br><span><b>주문번호</b> : <?=$iamport_order->get_order_uid()?></span>
-						<br><span><b>결제수단</b> : <?=$iamport_order->get_pay_method()?></span>
-						<br><span><b>주문일자</b> : <?=$iamport_order->get_paid_date()?></span>
-						<br><span><b>주문상태</b> : <?=$iamport_order->get_order_status()?></span>
-						<br><a target="_blank" class="view-order" href="<?=add_query_arg( 'iamport-order-view', $iamport_order->get_order_uid(), $history_page_url )?>">보기</a>
+						<br><span><b><?=__('주문번호', 'iamport-payment')?></b> : <?=$iamport_order->get_order_uid()?></span>
+						<br><span><b><?=__('결제수단', 'iamport-payment')?></b> : <?=$iamport_order->get_pay_method()?></span>
+						<br><span><b><?=__('주문일자', 'iamport-payment')?></b> : <?=$iamport_order->get_paid_date()?></span>
+						<br><span><b><?=__('주문상태', 'iamport-payment')?></b> : <?=$iamport_order->get_order_status()?></span>
+						<br><a target="_blank" class="view-order" href="<?=add_query_arg( 'iamport-order-view', $iamport_order->get_order_uid(), $history_page_url )?>"><?=__('보기', 'iamport-payment')?></a>
 					</span>
 				</td>
 				<td><?=$iamport_order->get_order_uid()?></td>
 				<td><?=$iamport_order->get_pay_method()?></td>
 				<td><?=$iamport_order->get_paid_date()?></td>
 				<td><?=$iamport_order->get_order_status()?></td>
-				<td><a target="_blank" class="view-order" href="<?=add_query_arg( 'iamport-order-view', $iamport_order->get_order_uid(), $history_page_url )?>">보기</a></td>
+				<td><a target="_blank" class="view-order" href="<?=add_query_arg( 'iamport-order-view', $iamport_order->get_order_uid(), $history_page_url )?>"><?=__('보기', 'iamport-payment')?></a></td>
 			</tr>
 			<?php endforeach; ?>
 
 			<?php if (empty($posts)) : ?>
 			<tr>
-				<td colspan="6">결제내역을 찾을 수 없습니다.</td>
+				<td colspan="6"><?=__('결제내역을 찾을 수 없습니다.', 'iamport-payment')?></td>
 			</tr>
 			<?php endif; ?>
 		</tbody>

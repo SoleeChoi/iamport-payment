@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<p class="button-holder" style="text-align:center">
-			<a href="#" id="iamport-end-survey-button" class="iamport-modal-button w100">다음</a>
+			<a href="#" id="iamport-end-survey-button" class="iamport-modal-button w100"><?=__('다음', 'iamport-payment')?></a>
 		</p>
 	</div>
 <?php

@@ -1,0 +1,422 @@
+# Copyright (C) 2020 SIOT
+# This file is distributed under the same license as the 아임포트 결제버튼 생성 플러그인 plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: 아임포트 결제버튼 생성 플러그인 1.1.15\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/iamport-payment\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2020-07-14T07:16:24+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.4.0\n"
+"X-Domain: iamport-payment\n"
+
+#. Plugin Name of the plugin
+msgid "아임포트 결제버튼 생성 플러그인"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "http://www.iamport.kr"
+msgstr ""
+
+#. Description of the plugin
+msgid "원하는 위치에 자유자재로 결제버튼을 생성하실 수 있는 아임포트 플러그인입니다. 국내 PG사의 다양한 결제수단을 이용하실 수 있습니다. ( 신용카드 / 실시간계좌이체 / 가상계좌 / 휴대폰소액결제 - 에스크로포함 )"
+msgstr ""
+
+#. Author of the plugin
+msgid "SIOT"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://www.siot.do"
+msgstr ""
+
+#: model/iamport-order.php:66
+#: model/iamport-payment-button.php:73
+#: model/iamport-payment-button.php:84
+msgid "신용카드"
+msgstr ""
+
+#: model/iamport-order.php:69
+#: model/iamport-payment-button.php:74
+#: model/iamport-payment-button.php:85
+msgid "실시간계좌이체"
+msgstr ""
+
+#: model/iamport-order.php:72
+#: model/iamport-payment-button.php:75
+#: model/iamport-payment-button.php:86
+msgid "가상계좌"
+msgstr ""
+
+#: model/iamport-order.php:75
+#: model/iamport-payment-button.php:76
+#: model/iamport-payment-button.php:87
+msgid "휴대폰소액결제"
+msgstr ""
+
+#: model/iamport-order.php:79
+#: model/iamport-payment-button.php:77
+#: model/iamport-payment-button.php:78
+#: model/iamport-payment-button.php:88
+msgid "카카오페이"
+msgstr ""
+
+#: model/iamport-order.php:82
+#: model/iamport-payment-button.php:80
+#: model/iamport-payment-button.php:90
+msgid "삼성페이"
+msgstr ""
+
+#: model/iamport-order.php:113
+#: model/iamport-order.php:129
+#: view/admin/edit-order.php:12
+msgid "미결제"
+msgstr ""
+
+#: model/iamport-order.php:116
+#: view/admin/edit-order.php:13
+msgid "결제완료"
+msgstr ""
+
+#: model/iamport-order.php:119
+msgid "환불됨"
+msgstr ""
+
+#: model/iamport-order.php:122
+#: model/iamport-payment-button.php:253
+msgid "결제실패"
+msgstr ""
+
+#: model/iamport-order.php:125
+msgid "가상계좌 입금대기중"
+msgstr ""
+
+#: model/iamport-payment-button.php:50
+#: model/iamport-payment-button.php:251
+#: model/iamport-payment-button.php:317
+#: view/modal/payment.php:18
+#: view/modal/payment.php:22
+msgid "결제하기"
+msgstr ""
+
+#: model/iamport-payment-button.php:51
+msgid "아래의 정보를 입력 후 결제버튼을 클릭해주세요"
+msgstr ""
+
+#: model/iamport-payment-button.php:55
+msgid "아임포트 결제하기"
+msgstr ""
+
+#: model/iamport-payment-button.php:69
+#: model/iamport-payment-shortcode.php:258
+#: view/history/order-view.php:31
+msgid "결제금액"
+msgstr ""
+
+#: model/iamport-payment-button.php:79
+#: model/iamport-payment-button.php:89
+msgid "Paypal"
+msgstr ""
+
+#: model/iamport-payment-button.php:132
+#: model/iamport-payment-button.php:133
+#: view/history/order-view.php:79
+msgid "결제자 이름"
+msgstr ""
+
+#: model/iamport-payment-button.php:143
+#: model/iamport-payment-button.php:144
+msgid "결제자 이메일"
+msgstr ""
+
+#: model/iamport-payment-button.php:154
+#: model/iamport-payment-button.php:155
+#: view/history/order-view.php:91
+msgid "결제자 전화번호"
+msgstr ""
+
+#: model/iamport-payment-button.php:165
+#: model/iamport-payment-button.php:166
+#: model/iamport-payment-shortcode.php:260
+#: view/history/order-view.php:97
+msgid "배송주소"
+msgstr ""
+
+#: model/iamport-payment-button.php:249
+#: model/iamport-payment-shortcode.php:259
+#: view/history/order-list.php:13
+#: view/history/order-list.php:26
+#: view/history/order-view.php:40
+msgid "결제수단"
+msgstr ""
+
+#: model/iamport-payment-button.php:250
+msgid "결제 중입니다..."
+msgstr ""
+
+#: model/iamport-payment-button.php:252
+msgid "결제금액이 올바르지 않습니다."
+msgstr ""
+
+#: model/iamport-payment-button.php:254
+msgid "다음과 같은 사유로 결제에 실패하였습니다."
+msgstr ""
+
+#: model/iamport-payment-button.php:255
+msgid "결제완료 처리중"
+msgstr ""
+
+#: model/iamport-payment-button.php:256
+msgid "잠시만 기다려주세요. 결제완료 처리중입니다."
+msgstr ""
+
+#: model/iamport-payment-button.php:257
+msgid "필수입력입니다"
+msgstr ""
+
+#: model/iamport-payment-button.php:258
+msgid "우편번호"
+msgstr ""
+
+#: model/iamport-payment-button.php:259
+msgid "우편번호 찾기"
+msgstr ""
+
+#: model/iamport-payment-button.php:260
+msgid "주소"
+msgstr ""
+
+#: model/iamport-payment-button.php:261
+msgid "상세"
+msgstr ""
+
+#: model/iamport-payment-button.php:262
+msgid "파일찾기"
+msgstr ""
+
+#: model/iamport-payment-button.php:263
+msgid "선택된 파일 없음"
+msgstr ""
+
+#: model/iamport-payment-callback.php:46
+#: model/iamport-payment-info.php:61
+#: model/iamport-payment-info.php:72
+msgid "주문정보를 찾을 수 없습니다."
+msgstr ""
+
+#: model/iamport-payment-callback.php:49
+#: model/iamport-payment-info.php:91
+msgid "결제요청금액과 승인된 금액이 다릅니다. 비정상적인 시도입니다."
+msgstr ""
+
+#: model/iamport-payment-info.php:66
+msgid "파라메터라 누락되었습니다. 관리자에게 문의해주세요."
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:43
+#: model/iamport-payment-shortcode.php:44
+msgid "아임포트 설정"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:61
+#: model/iamport-payment-shortcode.php:62
+msgid "아임포트 숏코드 매뉴얼"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:231
+#: model/iamport-payment-shortcode.php:232
+msgid "아임포트 결제목록"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:256
+#: view/history/order-list.php:11
+#: view/history/order-view.php:36
+msgid "주문명"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:257
+#: view/history/order-list.php:15
+#: view/history/order-list.php:28
+msgid "주문상태"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:258
+msgid "요청금액(면세금액)"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:259
+msgid "결제시각"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:260
+msgid "이름"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:260
+msgid "이메일"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:260
+msgid "전화번호"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:261
+msgid "부가정보"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:262
+msgid "첨부파일"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:290
+msgid "은행"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:290
+msgid "계좌번호"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:290
+msgid "입금기한"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:387
+msgid "아임포트 결제상세정보"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:388
+#: view/admin/edit-order.php:10
+msgid "결제상태 변경"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:389
+msgid "결제 히스토리"
+msgstr ""
+
+#: model/iamport-payment-shortcode.php:439
+msgid "워드프레스 관리자 결제취소"
+msgstr ""
+
+#: model/iamport.php:130
+msgid "취소하실 imp_uid 또는 merchant_uid 중 하나를 지정하셔야 합니다."
+msgstr ""
+
+#: model/iamport.php:192
+#: model/iamport.php:219
+msgid "API서버로부터 응답이 올바르지 않습니다. "
+msgstr ""
+
+#: model/iamport.php:247
+msgid "[API인증오류] "
+msgstr ""
+
+#: view/admin/edit-order.php:14
+msgid "결제취소 및 환불처리"
+msgstr ""
+
+#: view/admin/edit-order.php:24
+msgid "삭제하기"
+msgstr ""
+
+#: view/admin/edit-order.php:26
+msgid "휴지통으로 이동"
+msgstr ""
+
+#: view/admin/edit-order.php:32
+msgid "변경하기"
+msgstr ""
+
+#: view/history/order-list.php:12
+#: view/history/order-list.php:25
+#: view/history/order-view.php:18
+msgid "주문번호"
+msgstr ""
+
+#: view/history/order-list.php:14
+#: view/history/order-list.php:27
+msgid "주문일자"
+msgstr ""
+
+#: view/history/order-list.php:36
+msgid "보기"
+msgstr ""
+
+#: view/history/order-list.php:42
+msgid "결제내역을 찾을 수 없습니다."
+msgstr ""
+
+#: view/history/order-view.php:23
+msgid "매출전표"
+msgstr ""
+
+#: view/history/order-view.php:24
+msgid "매출전표보기"
+msgstr ""
+
+#: view/history/order-view.php:27
+msgid "결제일자"
+msgstr ""
+
+#: view/history/order-view.php:44
+msgid "결제상태"
+msgstr ""
+
+#: view/history/order-view.php:60
+msgid "가상계좌 입금은행"
+msgstr ""
+
+#: view/history/order-view.php:66
+msgid "가상계좌번호"
+msgstr ""
+
+#: view/history/order-view.php:72
+msgid "가상계좌 입금기한"
+msgstr ""
+
+#: view/history/order-view.php:85
+msgid "결제자 Email"
+msgstr ""
+
+#: view/history/thankyou-fail.php:5
+msgid "결제 정보를 확인할 수 없습니다."
+msgstr ""
+
+#: view/history/thankyou-success.php:5
+msgid "결제가 정상적으로 완료되었습니다."
+msgstr ""
+
+#: view/history/thankyou-success.php:7
+msgid "결제에 실패하였습니다"
+msgstr ""
+
+#: view/history/thankyou-success.php:10
+msgid "(결제 전)주문이 접수되었습니다."
+msgstr ""
+
+#: view/history/thankyou-success.php:13
+msgid "결제정보 확인하러 가기"
+msgstr ""
+
+#: view/modal/login.php:7
+msgid "로그인 필요"
+msgstr ""
+
+#: view/modal/login.php:8
+msgid "결제기능을 이용하기 위해서는 로그인이 필요합니다."
+msgstr ""
+
+#: view/modal/login.php:11
+msgid "로그인하러 가기"
+msgstr ""
+
+#: view/modal/result.php:7
+msgid "결제결과"
+msgstr ""
+
+#: view/modal/survey.php:15
+msgid "다음"
+msgstr ""

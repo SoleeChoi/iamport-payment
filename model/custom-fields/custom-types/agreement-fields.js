@@ -1,5 +1,7 @@
 import { ButtonFields } from '../button-fields.js';
 
+const { labelList } = iamportButtonFields;
+
 export class AgreementFields extends ButtonFields  {
 
     constructor(setting) {
@@ -12,7 +14,7 @@ export class AgreementFields extends ButtonFields  {
     renderDefaultHTML() {
         let defaultHTML = '<p class="custom-input ' + this.required + '" name="' + this.label + '">';
         defaultHTML += '<label>' + this.label + '<span class="iamport-checkbox-alert"></span>';
-        defaultHTML += '<span class="iamport-checkbox-alert-message" style="display:none">필수입력입니다</span></label>';
+        defaultHTML += '<span class="iamport-checkbox-alert-message" style="display:none">' + labelList.requiredMsg + '</span></label>';
 
         return defaultHTML;
     }

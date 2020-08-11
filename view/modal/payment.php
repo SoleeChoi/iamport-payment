@@ -15,11 +15,11 @@
 		<?php if ( $hasCustomFields ) : ?>
 			<p class="button-holder" style="text-align:center">
 				<a href="#" class="iamport-go-back" id="iamport-go-back"><img src="<?=plugin_dir_url(__FILE__)?>../../assets/img/go-back.svg"></a>
-				<a href="#" target="#<?=$uuid?>" class="iamport-modal-button with-go-back" id="iamport-payment-submit" data-redirect-after="<?=$a['redirect_after']?>">결제하기</a>
+				<a href="#" target="#<?=$uuid?>" class="iamport-modal-button with-go-back" id="iamport-payment-submit" data-redirect-after="<?=$a['redirect_after']?>"><?=__('결제하기', 'iamport-payment')?></a>
 			</p>
 		<?php else : ?>
 			<p class="button-holder" style="text-align:center">
-				<a href="#" target="#<?=$uuid?>" class="iamport-modal-button w100" id="iamport-payment-submit" data-redirect-after="<?=$a['redirect_after']?>">결제하기</a>
+				<a href="#" target="#<?=$uuid?>" class="iamport-modal-button w100" id="iamport-payment-submit" data-redirect-after="<?=$a['redirect_after']?>"><?=__('결제하기', 'iamport-payment')?></a>
 			</p>
 		<?php endif; ?>	
 	</div>

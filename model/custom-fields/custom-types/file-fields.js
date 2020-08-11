@@ -2,13 +2,16 @@
 import { ButtonFields } from '../button-fields.js';
 import { onFileUpload } from "../../../controller/file-upload.js";
 
+const { labelList } = iamportButtonFields;
+const { searchFile, noFileMsg } = labelList;
+
 export class FileFields extends ButtonFields  {
 
 	renderHTML() {
 		window.onFileUpload = onFileUpload;
 
 		let html = '<input class="iamport-file" placeholder="' + this.placeholder + '" data-imp-field="' + this.content + '"/>';
-		html += '<input class="iamport-search-file" type="button" value="파일찾기"/>';
+		html += '<input class="iamport-search-file" type="button" value="' + searchFile + '"/>';
 		html += '<input class="iamport-file filename" name="attached_files" type="file" onchange="onFileUpload(this.files, event)"/></p>';
 
 		this.htmlElement = jQuery(this.defaultHTML + html);
@@ -21,7 +24,7 @@ export class FileFields extends ButtonFields  {
 		const targetFile = domElement.find('input.iamport-file.filename');
 		const { value } = targetInput[0];
 		
-		if ( value && value !== "선택된 파일 없음" && value !== this.placeholder ) {
+		if ( value && value !== noFileMsg && value !== this.placeholder ) {
 			this.extraKey = targetInput.attr('data-imp-field');
 			
 			const fileData = targetFile.prop('files')[0];

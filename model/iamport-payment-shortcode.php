@@ -13,32 +13,32 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 		private $api_secret;
 		private $shortcode;
 		private $payment_info;
-		private $callback;
+    private $callback;
 
 		public function __construct() {
 			if( is_admin() ) {
 				add_action('admin_menu', array( $this, 'iamport_admin_menu') );
 			}
 
-			add_action( 'init', array($this, 'init') );
+      add_action( 'init', array($this, 'init') );
 			add_action( 'wp_enqueue_scripts', array($this, 'iamport_script_enqueue'), 99 );
-			add_filter( 'query_vars', array($this, 'add_query_vars'), 0 );
+      add_filter( 'query_vars', array($this, 'add_query_vars'), 0 );
 
 			add_action( 'wp_ajax_get_order_uid', array($this, 'ajax_get_order_uid') );
 			add_action( 'wp_ajax_nopriv_get_order_uid', array($this, 'ajax_get_order_uid') );
 
 			add_action( 'add_meta_boxes', array($this, 'iamport_order_metabox') );
-			add_action( 'save_post', array($this, 'save_iamport_order_metabox') );
-		}
+      add_action( 'save_post', array($this, 'save_iamport_order_metabox') );
+    }
 
 		public function iamport_admin_menu() {
 			add_submenu_page(
 				'edit.php?post_type=iamport_payment',
-				'아임포트 설정',
-				'아임포트 설정',
+				__('아임포트 설정', 'iamport-payment'),
+				__('아임포트 설정', 'iamport-payment'),
 				'administrator',
 				'iamport-config',
-				function() { echo require_once(dirname(__FILE__).'/../view/admin/setting.php'); }
+				function() { echo require_once(dirname(__FILE__).'/../view/admin/'.get_locale().'/setting.php'); }
 			);
 
 			// add_submenu_page(
@@ -52,15 +52,17 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 
 			add_submenu_page(
 				'edit.php?post_type=iamport_payment',
-				'아임포트 숏코드 메뉴얼',
-				'아임포트 숏코드 메뉴얼',
+				__('아임포트 숏코드 매뉴얼', 'iamport-payment'),
+				__('아임포트 숏코드 매뉴얼', 'iamport-payment'),
 				'administrator',
 				'iamport-shortcode',
-				function() { echo require_once(dirname(__FILE__).'/../view/admin/manual.php'); }
+				function() { echo require_once(dirname(__FILE__).'/../view/admin/'.get_locale().'/manual.php'); }
 			);
 		}
 
 		public function init() {
+      load_plugin_textdomain('iamport-payment', FALSE, '/Applications/MAMP/htdocs/wordpress/wp-content/plugins/iamport-payment/languages/iamport-payment-en_US.mo');
+
 			$settings = get_option('iamport_setting');
 			if ( empty($settings) ) {
 				/* -------------------- 설정파일 백업으로부터 복원 -------------------- */
@@ -219,8 +221,8 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 			register_post_type( 'iamport_payment',
 				array(
 					'labels'		 		=> array(
-						'name' 				=> '아임포트 결제목록',
-						'singular_name' 	=> '아임포트 결제목록'
+						'name' 				=> __('아임포트 결제목록', 'iamport-payment'),
+						'singular_name' 	=> __('아임포트 결제목록', 'iamport-payment'),
 					),
 					'menu_icon' 			=> plugin_dir_url( __FILE__ ) . '../assets/img/iamport.jpg',
 					'show_ui' 				=> true,
@@ -240,17 +242,17 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 			remove_post_type_support( 'iamport_payment', 'editor' );
 
 			add_filter( 'manage_iamport_payment_posts_columns', array($this, 'iamport_payment_columns') );
-			add_action( 'manage_iamport_payment_posts_custom_column' , array($this, 'iamport_payment_custom_columns'), 10, 2 );
-		}
+      add_action( 'manage_iamport_payment_posts_custom_column' , array($this, 'iamport_payment_custom_columns'), 10, 2 );
+    }
 
 		public function iamport_payment_columns($columns) {
-			$columns['title_uid'] 			= '주문명<br>주문번호';
-			$columns['order_status'] 		= '주문상태';
-			$columns['order_paid_amount']	= '요청금액(면세금액)<br>결제금액';
-			$columns['pay_method_date'] 	= '결제수단<br>결제시각';
-			$columns['buyer_info'] 			= '이름<br>이메일<br>전화번호<br>배송주소';
-			$columns['extra_fields'] 		= '부가정보';
-			$columns['attached_files'] 		= '첨부파일';
+			$columns['title_uid'] 			= __('주문명', 'iamport-payment').'<br>'.__('주문번호', 'iamport-payment');
+			$columns['order_status'] 		= __('주문상태', 'iamport-payment');
+			$columns['order_paid_amount']	= __('요청금액(면세금액)', 'iamport-payment').'<br>'.__('결제금액', 'iamport-payment');
+			$columns['pay_method_date'] 	= __('결제수단', 'iamport-payment').'<br>'.__('결제시각', 'iamport-payment');
+			$columns['buyer_info'] 			= __('이름', 'iamport-payment').'<br>'.__('이메일', 'iamport-payment').'<br>'.__('전화번호', 'iamport-payment').'<br>'.__('배송주소', 'iamport-payment');
+			$columns['extra_fields'] 		= __('부가정보', 'iamport-payment');
+      $columns['attached_files'] 		= __('첨부파일', 'iamport-payment');
 
 			unset($columns['title']);
 			unset($columns['date']);
@@ -278,7 +280,7 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 						$due = is_numeric($vbank_info['due']) ? date('Y-m-d H:i:s', $vbank_info['due']+(get_option( 'gmt_offset' ) * HOUR_IN_SECONDS)) : $vbank_info['due'];
 
 						echo '<p style="background:#eee;text-align:left;font-size:85%;">';
-						echo sprintf("* 은행 : %s<br>* 계좌번호 : %s<br>* 입금기한 : %s)", $vbank_info['name'], $vbank_info['account'], $due);
+						echo sprintf("* ".__('은행','iamport-payment')." : %s<br>* ".__('계좌번호', 'iamport-payment')." : %s<br>* ".__('입금기한', 'iamport-payment')." : %s)", $vbank_info['name'], $vbank_info['account'], $due);
 						echo '</p>';
 					}
 
@@ -348,7 +350,8 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 					}
 
 					break;
-				}
+        }
+
 			}
 		}
 
@@ -375,9 +378,9 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 		public function iamport_order_metabox() {
 			remove_meta_box( 'submitdiv', 'iamport_payment', 'side' );
 
-			add_meta_box( 'iamport-order-info', '아임포트 결제상세정보', array($this, 'iamport_order_metabox_callback'), 'iamport_payment', 'normal' );
-			add_meta_box( 'iamport-order-action', '결제상태 변경', array($this, 'iamport_order_action_metabox_callback'), 'iamport_payment', 'side', 'high' );
-			add_meta_box( 'iamport-order-fail-history', '결제 히스토리', array($this, 'iamport_order_history_metabox_callback'), 'iamport_payment', 'side', 'low');
+			add_meta_box( 'iamport-order-info', __('아임포트 결제상세정보', 'iamport-payment'), array($this, 'iamport_order_metabox_callback'), 'iamport_payment', 'normal' );
+			add_meta_box( 'iamport-order-action', __('결제상태 변경', 'iamport-payment'), array($this, 'iamport_order_action_metabox_callback'), 'iamport_payment', 'side', 'high' );
+			add_meta_box( 'iamport-order-fail-history', __('결제 히스토리', 'iamport-payment'), array($this, 'iamport_order_history_metabox_callback'), 'iamport_payment', 'side', 'low');
 		}
 
 		public function iamport_order_metabox_callback($post) {
@@ -427,7 +430,7 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 				$iamport_result = $iamport->cancel(array(
 					'merchant_uid' 	=> $iamport_order->get_order_uid(),
 					'amount' 		=> $iamport_order->get_paid_amount(),
-					'reason' 		=> '워드프레스 관리자 결제취소'
+					'reason' 		=> '워드프레스 관리자 결제취소',
 				));
 
 				$iamport_order->add_failed_history(date_i18n('Y-m-d H:i:s'), $iamport_result->error['message']);

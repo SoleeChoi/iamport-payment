@@ -4,7 +4,7 @@
 	<div class="iamport-modal result" id="iamport-result-box" style="display:none">
 		<div class="iamport-modal-header">
 			<div class="iamport-modal-close"><img src="<?=plugin_dir_url(__FILE__)?>../../assets/img/close-button.png" /></div>
-			<div class="main-title">결제결과</div>
+			<div class="main-title"><?=__('결제결과', 'iamport-payment')?></div>
 			<div class="sub-title"></div>
 		</div>
 		<div class="iamport-modal-container">

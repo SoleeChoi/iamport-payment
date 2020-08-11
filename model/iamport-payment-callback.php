@@ -43,10 +43,10 @@ if ( !class_exists('IamportPaymentCallback') ) {
         $payment_data = $iamport_result->data;
 
         $iamport_order = IamportOrder::find_by_order_uid( $payment_data->merchant_uid );
-        if ( empty($iamport_order) ) return '주문정보를 찾을 수 없습니다.';
+        if ( empty($iamport_order) ) return __('주문정보를 찾을 수 없습니다.', 'iamport-payment');
 
         if ( floatval($payment_data->amount) != $iamport_order->get_order_amount() ) {
-          return '결제요청금액과 승인된 금액이 다릅니다. 비정상적인 시도입니다.';
+          return __('결제요청금액과 승인된 금액이 다릅니다. 비정상적인 시도입니다.', 'iamport-payment');
         }
 
         //결제완료처리

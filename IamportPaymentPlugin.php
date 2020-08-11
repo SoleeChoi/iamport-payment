@@ -6,6 +6,8 @@ Description: 원하는 위치에 자유자재로 결제버튼을 생성하실 �
 Version: 1.1.15
 Author: SIOT
 Author URI: http://www.siot.do
+Text Domain: iamport-payment
+Domain Path: /languages
 */
 
 require_once(dirname(__FILE__).'/model/iamport-payment-shortcode.php');
@@ -16,7 +18,7 @@ register_activation_hook( __FILE__, 'iamport_activated' );
 function iamport_activated() {
 	create_history_page();
 	create_thankyou_page();
-	add_endpoints();
+  add_endpoints();
 }
 
 function create_history_page() {

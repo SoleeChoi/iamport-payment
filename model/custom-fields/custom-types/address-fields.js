@@ -2,16 +2,19 @@
 import { ButtonFields } from '../button-fields.js';
 import { execDaumPostcode, foldDaumPostcode } from "../../../controller/postcode.js";
 
+const { labelList } = iamportButtonFields;
+const { zipcode, searchZipcode, address, addressDetail } = labelList;
+
 export class AddressFields extends ButtonFields {
 
 	renderHTML() {
 		window.execDaumPostcode = execDaumPostcode;
 		window.foldDaumPostcode = foldDaumPostcode;
 
-		let html = '<input type="button" class="iamport-postcode" onclick="execDaumPostcode(event)" value="우편번호" data-imp-field="' + this.content + '">';
-			html += '<input type="button" onclick="window.execDaumPostcode(event)" value="우편번호 찾기" class="iamport-postcode-button">';
-			html += '<input type="button" class="iamport-address" onclick="window.execDaumPostcode(event)" value="주소" data-imp-field="' + this.content + '">';
-			html += '<input type="text" class="iamport-address-detail" placeholder="상세" data-imp-field="' + this.content + '"></p>';
+		let html = '<input type="button" class="iamport-postcode" onclick="execDaumPostcode(event)" value="' + zipcode + '" data-imp-field="' + this.content + '">';
+			html += '<input type="button" onclick="window.execDaumPostcode(event)" value="' + searchZipcode + '" class="iamport-postcode-button">';
+			html += '<input type="button" class="iamport-address" onclick="window.execDaumPostcode(event)" value="' + address + '" data-imp-field="' + this.content + '">';
+			html += '<input type="text" class="iamport-address-detail" placeholder="' + addressDetail + '" data-imp-field="' + this.content + '"></p>';
 			html += '<div id="wrap" style="display:none;border:1px solid;height:300px;margin:0;position:relative;overflow-x:auto;">';
 			html += '<img src="//t1.daumcdn.net/localimg/localimages/07/postcode/320/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode(event)" alt="접기 버튼">';
 			html += '</div>';
@@ -25,7 +28,7 @@ export class AddressFields extends ButtonFields {
 		const address = domElement.find('input.iamport-address').val();
 		const addressDetail = domElement.find('input.iamport-address-detail').val();
 
-		if ( postcode != '우편번호' && address != '주소' ) {
+		if ( postcode != zipcode && address != labelList.address ) {
 			this.extraKey = domElement.attr('name');
 
 			if ( addressDetail ) {
@@ -46,7 +49,7 @@ export class AddressFields extends ButtonFields {
 			const address = this.htmlElement.find('input.iamport-address').val();
 			const addressDetail = this.htmlElement.find('input.iamport-address-detail').val();
 
-			if ( postcode != '우편번호' && address != '주소' ) {
+			if ( postcode != zipcode && address != labelList.address ) {
 				if ( addressDetail ) {
 					return address + ', ' + addressDetail + ', ' + postcode;
 				}
@@ -64,7 +67,7 @@ export class AddressFields extends ButtonFields {
 			const address = this.htmlElement.find('input.iamport-address').val();
 			const addressDetail = this.htmlElement.find('input.iamport-address-detail').val();
 
-			if ( postcode != '우편번호' && address != '주소' ) {
+			if ( postcode != zipcode && address != labelList.address ) {
 				return {
 					"address" : address,
 					"detail" : addressDetail,

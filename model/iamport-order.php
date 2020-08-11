@@ -63,23 +63,23 @@ if ( !class_exists('IamportOrder') ) {
 
 			switch($method) {
 				case 'card' :
-				return '신용카드';
+				return __('신용카드', 'iamport-payment');
 
 				case 'trans' :
-				return '실시간계좌이체';
+				return __('실시간계좌이체', 'iamport-payment');
 
 				case 'vbank' :
-				return '가상계좌';
+				return __('가상계좌', 'iamport-payment');
 
 				case 'phone' :
-				return '휴대폰소액결제';
+				return __('휴대폰소액결제', 'iamport-payment');
 
 				case 'kakao' :
 				case 'kakaopay' :
-				return '카카오페이';
+				return __('카카오페이', 'iamport-payment');
 
 				case 'samsung' :
-				return '삼성페이';
+				return __('삼성페이', 'iamport-payment');
 
 				case 'paypal' :
 				return 'Paypal';
@@ -110,23 +110,23 @@ if ( !class_exists('IamportOrder') ) {
 			if ( !empty($this->status) )	{
 				switch($this->status) {
 					case 'ready' :
-					return '미결제';
+					return __('미결제', 'iamport-payment');
 
 					case 'paid' :
-					return '결제완료';
+					return __('결제완료', 'iamport-payment');
 
 					case 'cancelled' :
-					return '환불됨';
+					return __('환불됨', 'iamport-payment');
 
 					case 'failed' :
-					return '결제실패';
+					return __('결제실패', 'iamport-payment');
 
 					case 'awaiting-vbank' :
-					return '가상계좌 입금대기중';
+					return __('가상계좌 입금대기중', 'iamport-payment');
 				}
 			}
 
-			return '미결제';
+			return __('미결제', 'iamport-payment');
 		}
 
 		public function get_paid_date() {
@@ -160,7 +160,7 @@ if ( !class_exists('IamportOrder') ) {
 
 		public function get_currency() {
 			return get_post_meta( $this->post->ID, 'currency', true);
-		}
+    }
 
 		public function is_free() {
 			return $this->get_order_amount() == 0;

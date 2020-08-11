@@ -6,7 +6,7 @@ import { RadioFields } from "../model/custom-fields/custom-types/radio-fields.js
 import { FileFields } from "../model/custom-fields/custom-types/file-fields.js";
 import { AgreementFields } from "../model/custom-fields/custom-types/agreement-fields.js";
 
-const { uuidList, userCode, isLoggedIn, configuration, device } = iamportButtonFields;
+const { uuidList, userCode, isLoggedIn, configuration, device, labelList } = iamportButtonFields;
 
 jQuery(($) => {
 	const body = $('body');
@@ -33,7 +33,7 @@ jQuery(($) => {
 		$(uuidToString).click((e) => {
 			requiredLength = 0; // 필수입력 필드 길이 초기화
 
-			let buttonContext = window["iamportButtonContext_" + uuid];
+      let buttonContext = window["iamportButtonContext_" + uuid];
 			let customFields = buttonContext.customFields; //localize string으로 global영역에 존재
 			let iamportBox = $('#' + uuid);
 			let iamportTargetBox = iamportBox;
@@ -360,7 +360,7 @@ function renderPaymentHTML(iamportBox, buttonContext) {
 		// 결제금액
 		let payAmountContents = {
 			"required": "true",
-			"content": "결제금액",
+			"content": buttonContext['amountLabel'],
 			"nameValue": "order_amount"
 		}
 
@@ -410,7 +410,7 @@ function renderPaymentHTML(iamportBox, buttonContext) {
 		// 결제수단
 		const paymethodContents = {
 			"required": "true",
-			"content": "결제수단",
+			"content": labelList.payMethod,
 			"options": 	buttonContext.payMethods,
 			"nameValue": "pay_method"
 		}
@@ -423,9 +423,9 @@ function renderPaymentHTML(iamportBox, buttonContext) {
 /* ---------- 결제하기 버튼 상태 정하기 ---------- */
 function setPaymentBtnBusy($button, busy) {
 	if ( busy ) {
-		$button.attr('data-progress', 'true').text('결제 중입니다...');
+		$button.attr('data-progress', 'true').text(labelList.btnLoading);
 	} else {
-		$button.attr('data-progress', null).text('결제하기');
+		$button.attr('data-progress', null).text(labelList.btnPayment);
 	}
 }
 
@@ -500,7 +500,7 @@ function iamportAjaxCall($, iamportBox, fileFields, inputValues, buttonContext, 
 	const pgForPaymentContext = buttonContext.pgForPayment;
 
 	if ( order_amount < 0 ) {
-		alert('결제금액이 올바르지 않습니다.');
+		alert(labelList.amountInvalidMsg);
 		setPaymentBtnBusy(payButton, false);
 		return false;
 	}
@@ -610,14 +610,14 @@ function iamportAjaxCall($, iamportBox, fileFields, inputValues, buttonContext, 
 			let resultBox = $('#iamport-result-box');
 
 			if ( callback.success ) {
-				resultBox.find('.main-title').text('결제완료 처리중');
+				resultBox.find('.main-title').text(labelList.paymentLoadingTitle);
 				resultBox.find('.sub-title').text('');
-				resultBox.find('.content').html('잠시만 기다려주세요. 결제완료 처리중입니다.');
+				resultBox.find('.content').html(labelList.paymentLoadingContent);
 
 				location.href = rsp.thankyou_url;
 			} else {
-				resultBox.find('.main-title').text('결제실패');
-				resultBox.find('.sub-title').html('다음과 같은 사유로 결제에 실패하였습니다.');
+				resultBox.find('.main-title').text(labelList.paymentFailTitle);
+				resultBox.find('.sub-title').html(labelList.paymentFailDescription);
 				resultBox.find('.content').html(callback.error_msg);
 			}
 

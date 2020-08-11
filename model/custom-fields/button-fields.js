@@ -1,3 +1,4 @@
+const { labelList } = iamportButtonFields;
 
 export class ButtonFields {
 	constructor(setting) {
@@ -26,7 +27,7 @@ export class ButtonFields {
 	renderDefaultHTML() {
 		let defaultHTML = '<p class="custom-input ' + this.required + '" name="' + this.content + '">';
 		defaultHTML += '<label>' + this.content + '<span class="iamport-checkbox-alert"></span>';
-		defaultHTML += '<span class="iamport-checkbox-alert-message" style="display:none">필수입력입니다</span></label>';
+		defaultHTML += '<span class="iamport-checkbox-alert-message" style="display:none">' + labelList.requiredMsg + '</span></label>';
 
 		return defaultHTML;
 	}

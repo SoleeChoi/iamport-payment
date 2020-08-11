@@ -4,11 +4,11 @@
 	<div class="iamport-modal result" id="iamport-login-box" style="display:none">
 		<div class="iamport-modal-header">
 			<div class="iamport-modal-close"><img src="<?=plugin_dir_url(__FILE__)?>../../assets/img/close-button.png" /></div>
-			<div class="main-title">로그인 필요</div>
-			<div class="sub-title">결제기능을 이용하기 위해서는 로그인이 필요합니다.</div>
+			<div class="main-title"><?=__('로그인 필요', 'iamport-payment')?></div>
+			<div class="sub-title"><?=__('결제기능을 이용하기 위해서는 로그인이 필요합니다.', 'iamport-payment')?></div>
 		</div>
 		<p class="button-holder" style="text-align:center">
-			<a class="iamport-modal-button w100" href="<?=wp_login_url("http" . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true)?>">로그인하러 가기</a>
+			<a class="iamport-modal-button w100" href="<?=wp_login_url("http" . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}", true)?>"><?=__('로그인하러 가기', 'iamport-payment')?></a>
 		</p>
 	</div>
 <?php

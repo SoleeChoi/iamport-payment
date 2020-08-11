@@ -127,7 +127,7 @@ if ( !class_exists('Iamport') ) {
 				} else if ( $data['merchant_uid'] ) {
 					$cancel_data['merchant_uid'] = $data['merchant_uid'];
 				} else {
-					return new IamportResult(false, null, array('code'=>'', 'message'=>'취소하실 imp_uid 또는 merchant_uid 중 하나를 지정하셔야 합니다.'));
+					return new IamportResult(false, null, array('code'=>'', 'message'=>__('취소하실 imp_uid 또는 merchant_uid 중 하나를 지정하셔야 합니다.', 'iamport-payment')));
 				}
 
 				$response = $this->postResponse(
@@ -189,7 +189,7 @@ if ( !class_exists('Iamport') ) {
 	        curl_close($ch);
 
 	        if ( $error_code > 0 )	throw new Exception("Request Error(HTTP STATUS : ".$status_code.")", $error_code);
-	        if ( empty($r) )	throw new Exception("API서버로부터 응답이 올바르지 않습니다. ".$body, 1);
+	        if ( empty($r) )	throw new Exception(__("API서버로부터 응답이 올바르지 않습니다. ",'iamport-payment').$body, 1);
 	        if ( $r->code !== 0 )	throw new IamportRequestException($r);
 
 	        return $r->response;
@@ -216,7 +216,7 @@ if ( !class_exists('Iamport') ) {
 	        curl_close($ch);
 
 	        if ( $error_code > 0 )	throw new Exception("AccessCode Error(HTTP STATUS : ".$status_code.")", $error_code);
-	        if ( empty($r) )	throw new Exception("API서버로부터 응답이 올바르지 않습니다. ".$body, 1);
+	        if ( empty($r) )	throw new Exception(__("API서버로부터 응답이 올바르지 않습니다. ",'iamport-payment').$body, 1);
 	        if ( $r->code !== 0 )	throw new IamportRequestException($r);
 
 	        return $r->response;
@@ -244,7 +244,7 @@ if ( !class_exists('Iamport') ) {
 
 				return $response->access_token;
 			} catch(Exception $e) {
-				throw new IamportAuthException('[API인증오류] '.$e->getMessage(), $e->getCode());
+				throw new IamportAuthException(__('[API인증오류] ', 'iamport-payment').$e->getMessage(), $e->getCode());
 			}
 		}
 	}

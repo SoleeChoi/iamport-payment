@@ -7,27 +7,7 @@ if ( !class_exists('IamportPaymentButton') ) {
 		private $user_code;
 		private $api_key;
 		private $api_secret;
-		private $configuration;
-
-		public $method_names = array(
-			'card' 		=> '신용카드',
-			'trans' 	=> '실시간계좌이체',
-			'vbank' 	=> '가상계좌',
-			'phone' 	=> '휴대폰소액결제',
-			'kakao' 	=> '카카오페이',
-			'kakaopay' 	=> '카카오페이',
-			'paypal' 	=> 'Paypal',
-			'samsung' 	=> '삼성페이'
-		);
-		public $method_name_to_en = array(
-			 '신용카드' 		=> 'card',
-			 '실시간계좌이체' 	=> 'trans',
-			 '가상계좌' 		=> 'vbank',
-			 '휴대폰소액결제' 	=> 'phone',
-			 '카카오페이' 		=> 'kakaopay',
-			 'Paypal' 		=> 'paypal',
-			 '삼성페이' 		=> 'samsung'
-		);
+    private $configuration;
 
 		private $uuidList = array(); // front 에서 필요한 것 같아 살려둠
 		private $buttonContext = null; //IamportPaymentButton은 객체가 1개 뿐임. [iamport_payment_button_field]는 항상 [iamport_payment_button] 의 child이므로 [iamport_payment_button]를 처리할 때 $this->buttonContext를 생성하고, [iamport_payment_button_field] 를 처리할 때 관련 정보를 append
@@ -67,8 +47,8 @@ if ( !class_exists('IamportPaymentButton') ) {
 			$this->buttonContext = array("uuid"=>$uuid); //field 등 정보 저장공간 확보
 
 			$a = shortcode_atts( array(
-				'title' 			=> '결제하기',
-				'description' 		=> '아래의 정보를 입력 후 결제버튼을 클릭해주세요',
+        'title' 			=> __('결제하기', 'iamport-payment'),
+				'description' 		=> __('아래의 정보를 입력 후 결제버튼을 클릭해주세요', 'iamport-payment'),
 				'pay_method' 		=> 'card',
 				'pay_method_list' 	=> 'card,kakaopay,samsung,trans,vbank,phone',
 				'field_list' 		=> 'name,email,phone',
@@ -79,15 +59,36 @@ if ( !class_exists('IamportPaymentButton') ) {
 				'class' 			=> null,
 				'redirect_after' 	=> null,
 				'currency'          => null, // null 은 KRW
-                'digital'           => 'no',
-                'pg_for_card'       => null,
-                'pg_for_trans'      => null,
-                'pg_for_vbank'      => null,
-                'pg_for_phone'      => null,
-                'pg_for_kakaopay'   => null,
-                'pg_for_paypal'     => null,
-			), $atts );
+        'digital'           => 'no',
+        'pg_for_card'       => null,
+        'pg_for_trans'      => null,
+        'pg_for_vbank'      => null,
+        'pg_for_phone'      => null,
+        'pg_for_kakaopay'   => null,
+        'pg_for_paypal'     => null,
+        'amount_label' => __('결제금액', 'iamport-payment'),
+      ), $atts );
 
+      $method_names = array(
+        'card' 		=> __('신용카드', 'iamport-payment'),
+        'trans' 	=> __('실시간계좌이체', 'iamport-payment'),
+        'vbank' 	=> __('가상계좌', 'iamport-payment'),
+        'phone' 	=> __('휴대폰소액결제', 'iamport-payment'),
+        'kakao' 	=> __('카카오페이', 'iamport-payment'),
+        'kakaopay' 	=> __('카카오페이', 'iamport-payment'),
+        'paypal' 	=> __('Paypal', 'iamport-payment'),
+        'samsung' 	=> __('삼성페이', 'iamport-payment'),
+      );
+
+      $method_name_to_en = array(
+        __('신용카드', 'iamport-payment') => 'card',
+        __('실시간계좌이체', 'iamport-payment') => 'trans',
+        __('가상계좌', 'iamport-payment') => 'vbank',
+        __('휴대폰소액결제', 'iamport-payment') => 'phone',
+        __('카카오페이', 'iamport-payment') => 'kakaopay',
+        __('Paypal', 'iamport-payment') => 'paypal',
+        __('삼성페이', 'iamport-payment') => 'samsung'
+     );
 
 			$trimedAttr = $this->trim_iamport_attr($content);
 			$content = $trimedAttr['content'];
@@ -128,8 +129,8 @@ if ( !class_exists('IamportPaymentButton') ) {
 							"required"		=> "true",
 							"value" 		=> $iamport_buyer_name,
 							"name"			=> "buyer_name",
-							"content" 		=> $fieldLabel ? $fieldLabel : "결제자 이름",
-							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : "결제자 이름"
+							"content" 		=> $fieldLabel ? $fieldLabel : __("결제자 이름", 'iamport-payment'),
+							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : __("결제자 이름", 'iamport-payment'),
 						);
 					}
 					break;
@@ -139,8 +140,8 @@ if ( !class_exists('IamportPaymentButton') ) {
 							"required"		=> "true",
 							"value"			=> $iamport_buyer_email,
 							"name"			=> "buyer_email",
-							"content"		=> $fieldLabel ? $fieldLabel : "결제자 이메일",
-							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : "결제자 이메일"
+							"content"		=> $fieldLabel ? $fieldLabel : __("결제자 이메일", 'iamport-payment'),
+							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : __("결제자 이메일", 'iamport-payment'),
 						);
 					}
 					break;
@@ -150,8 +151,8 @@ if ( !class_exists('IamportPaymentButton') ) {
 							"required"		=> "true",
 							"value"			=> null,
 							"name"			=> "buyer_tel",
-							"content"		=> $fieldLabel ? $fieldLabel : "결제자 전화번호",
-							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : "결제자 전화번호"
+							"content"		=> $fieldLabel ? $fieldLabel : __("결제자 전화번호", 'iamport-payment'),
+							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : __("결제자 전화번호", 'iamport-payment'),
 						);
 					}
 					break;
@@ -161,8 +162,8 @@ if ( !class_exists('IamportPaymentButton') ) {
 							"required"		=> "true",
 							"value"			=> null,
 							"name"			=> "shipping_addr",
-							"content"		=> $fieldLabel ? $fieldLabel : "배송주소",
-							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : "배송주소"
+							"content"		=> $fieldLabel ? $fieldLabel : __("배송주소", 'iamport-payment'),
+							"placeholder" 	=> $fieldPlaceholder ? $fieldPlaceholder : __("배송주소", 'iamport-payment'),
 						);
 					}
 					break;
@@ -204,7 +205,7 @@ if ( !class_exists('IamportPaymentButton') ) {
 
 			$payMethods = array();
 			foreach ( $rawPayMethods as $rawPayMethod ) {
-				$payMethods[] = $this->method_names[trim($rawPayMethod)];
+				$payMethods[] = $method_names[trim($rawPayMethod)];
 			}
 			$this->buttonContext[ "payMethods" ] = $payMethods;
 			$this->buttonContext[ "orderTitle" ] = $a["name"];
@@ -240,7 +241,27 @@ if ( !class_exists('IamportPaymentButton') ) {
 	                }
                 }
             }
-			$this->buttonContext[ "pgForPayment" ] = $pgForPaymentContext;
+      $this->buttonContext[ "pgForPayment" ] = $pgForPaymentContext;
+      $this->buttonContext[ "amountLabel" ] = $a['amount_label'];
+
+      /* ---------- 다국어 지원 위한 라벨 리스트 ---------- */
+      $labelList = array(
+        'payMethod' => __('결제수단', 'iamport-payment'),
+        'btnLoading' => __('결제 중입니다...', 'iamport-payment'),
+        'btnPayment' => __('결제하기', 'iamport-payment'),
+        'amountInvalidMsg' => __('결제금액이 올바르지 않습니다.', 'iamport-payment'),
+        'paymentFailTitle' => __('결제실패', 'iamport-payment'),
+        'paymentFailDescription' => __('다음과 같은 사유로 결제에 실패하였습니다.', 'iamport-payment'),
+        'paymentLoadingTitle' => __('결제완료 처리중', 'iamport-payment'),
+        'paymentLoadingContent' => __('잠시만 기다려주세요. 결제완료 처리중입니다.', 'iamport-payment'),
+        'requiredMsg' => __('필수입력입니다', 'iamport-payment'),
+        'zipcode' => __('우편번호', 'iamport-payment'),
+        'searchZipcode' => __('우편번호 찾기', 'iamport-payment'),
+        'address' => __('주소', 'iamport-payment'),
+        'addressDetail' => __('상세', 'iamport-payment'),
+        'searchFile' => __('파일찾기', 'iamport-payment'),
+        'noFileMsg' => __('선택된 파일 없음', 'iamport-payment'),
+      );
 
 			/* ---------- CONTROLLER ---------- */
 			$iamportButtonFields = array(
@@ -254,8 +275,9 @@ if ( !class_exists('IamportPaymentButton') ) {
 				// 'payMethods'	=> $payMethods,
 				// 'amountArr'		=> $this->amountArrs,
 				'device'		=> $device,
-				'payMethodsToEn'=> $this->method_name_to_en,
-				// 'fieldLists'	=> $fieldLists
+				'payMethodsToEn'=> $method_name_to_en,
+        // 'fieldLists'	=> $fieldLists
+        'labelList'     => $labelList,
 			);
 			wp_localize_script('iamport-bundle-js', 'iamportButtonContext_'.$uuid, $this->buttonContext);
 			wp_localize_script('iamport-bundle-js', 'iamportButtonFields', $iamportButtonFields); //숏코드 개수만큼 반복호출. 매번 overwrite
@@ -266,7 +288,7 @@ if ( !class_exists('IamportPaymentButton') ) {
 				'attr'			      => $a,
 				'hasCustomFields'	=> !empty($this->buttonContext["customFields"]),
 				'uuid'			      => $uuid,
-				'methodNames'	    => $this->method_names,
+				'methodNames'	    => $method_names,
 				'regexNewline'	  => '/(\s*?\n\s*?)/',
 				'device'		      => $device
 			);
@@ -292,7 +314,7 @@ if ( !class_exists('IamportPaymentButton') ) {
 
 		public function trim_iamport_attr($content) {
 			/* ---------- TRIM CONTENT ---------- */
-			if ( empty($content) )	$content = '결제하기';
+			if ( empty($content) )	$content = __('결제하기', 'iamport-payment');
 
 			// markup remove
 			$content = preg_replace('/<\s*\/?[a-zA-Z0-9]+[^>]*>/s', '', $content);
@@ -337,7 +359,7 @@ if ( !class_exists('IamportPaymentButton') ) {
 				'default'       => null,
                 'label'         => null,
                 'link'          => null,
-			), $atts );
+      ), $atts );
 
 			if ( empty($content) ) return null;
 			else $a['content'] = $content;

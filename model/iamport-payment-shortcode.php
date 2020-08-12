@@ -14,7 +14,6 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 		private $shortcode;
 		private $payment_info;
     private $callback;
-    private $migration_count; // TODO
 
 		public function __construct() {
 			if( is_admin() ) {
@@ -44,52 +43,47 @@ if ( !class_exists('IamportPaymentShortcode') ) {
     }
 
     public function custom_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
+      global $wpdb;
+
       if ( $doaction !== 'copy-to-iamport-block' ) {
         return $redirect_to;
       }
+      
+      // 모든 결제내역에 일괄 적용
+      // $table = 'wp_posts';
+      // $data = array(
+      //   'post_type' => 'iamport_block'
+      // );
+      // $where = array(
+      //   'post_type'   => 'iamport_payment',
+      //   'post_status' => 'publish'
+      // );
+      // $wpdb->update($table, $data, $where);
 
-      $migration_count = 0;
-      foreach ($post_ids as $post_id) {
-        $migration_status = get_post_meta($post_id, 'migration_status', true);
-        if ($migration_status != 'finished') {
-          // 이미 마이그레이션이 완료된 데이터는 제외한다
-          $migration_count += 1;
+      // 선택된 결제내역에만 적용
+      $postIdsString = implode(',', $post_ids);
+      $wpdb->query(
+        $wpdb->prepare(
+          "UPDATE {$wpdb->posts} SET post_type = %s WHERE ID IN ($postIdsString)",
+          "iamport_block"
+        )
+      );
 
-          // post row를 복사한다
-          $post = get_post($post_id);
-          $post->ID = 0; // 0일때 insert되고, 0이 아닌 값일때 update된다
-          $post->post_type = 'iamport_block';
-          $inserted_post_id = wp_insert_post((array)$post);
-
-          /**
-           * post meta row를 복사한다
-           * 복사가 완료된 데이터의 migration_status는 finished로 변경한다
-           */
-          update_post_meta($post_id, 'migration_status', 'finished');
-
-          $post_meta = get_post_meta($post_id);
-          foreach ($post_meta as $meta_key => $meta_value) {
-            // 단순히 $meta_value[0]을 참조하면 data type이 무조건 string이다
-            $value = get_post_meta($post_id, $meta_key, true);
-            add_post_meta($inserted_post_id, $meta_key, $value, true);
-          }
-        }
-      }
-      $this->migration_count = $migration_count;
-
-      $redirect_to = add_query_arg( 'copied-to-iamport-block', count( $post_ids ), $redirect_to );
+      $redirect_to = add_query_arg('migration_count', count( $post_ids ), $redirect_to);
       return $redirect_to;
     }
 
     function custom_bulk_actions_notices() {
-      if (!empty($_REQUEST['copied-to-iamport-block'])) {
+      $migration_count = $_GET['migration_count'];
+      if (!empty($migration_count)) {
         $class = 'updated notice is-dismissable';
-    
+
         printf(
-          '<div class="%1$s" style="margin-left: 0;"><p>' .
-          __('결제내역이 마이그레이션 되었습니다.', 'iamport-block') .
+          '<div class="%s" style="margin-left: 0;"><p>' .
+          __('%s건의 결제내역이 마이그레이션 되었습니다.', 'iamport-block') .
           '</p></div>',
-          esc_attr( $class )
+          esc_attr( $class ),
+          $migration_count
         ); 
       }
     }

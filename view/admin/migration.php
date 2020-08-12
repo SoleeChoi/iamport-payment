@@ -4,6 +4,8 @@
 
   require_once(dirname(__FILE__).'/../../model/migration/iamport-shortcode.php');
 
+  global $wpdb;
+
   // 각 포스트의 마이그레이션 버튼 눌렀을때
 	if ( isset($_POST['action']) && $_POST['action'] == "migrate_to_iamport_block") {
     $postId = $_POST['post_id'];
@@ -48,16 +50,14 @@
 
     // TODO: <!-- wp:paragraph --><p> </p><!-- /wp:paragraph --> 제거
     $postContent = str_replace(
-      '<!-- wp:paragraph -->
-<p><!-- wp:cgb/iamport-payment',
-      '<!-- wp:cgb/iamport-payment',
+      "<!-- wp:paragraph -->\n<p><!-- wp:cgb/iamport-payment",
+      "<!-- wp:cgb/iamport-payment",
       $postContent
     );
 
     $postContent = str_replace(
-      '/--></p>
-<!-- /wp:paragraph -->',
-      '/-->',
+      "/--></p>\n<!-- /wp:paragraph -->",
+      "/-->",
       $postContent
     );
 
@@ -151,48 +151,44 @@
         </thead>
         <tbody>
           <?php
-            $postCount = 0;
+            // 워드프레스에 설정된 페이지/포스트 중 iamport_payment_button 키워드를 포함하고 있는 포스트를 가져온다
+            $posts = $wpdb->get_results(
+              $wpdb->prepare(
+                "SELECT * FROM {$wpdb->posts} WHERE post_status = %s AND (post_type = %s OR post_type = %s) AND post_content LIKE '%iamport_payment_button%'",
+                "publish",
+                "page",
+                "post"
+              )
+            );
 
-            // 워드프레스에 설정된 모든 페이지를 가져온다
-            $query = new WP_Query(array(
-              'post_type'   =>  array('page','post'),
-              'post_status' => 'publish'
-            ));
-
-            if ($query->have_posts()) {
-              while ($query->have_posts()) {
-                $query->the_post();
-
-                $post = get_post();
-                // 숏코드를 포함하고 있는 포스트의 리스트만 렌더링한다
-                preg_match(
-                  '/\[iamport_payment_button(.*)\[\/iamport_payment_button\]/',
-                  $post->post_content,
-                  $matches,
-                  PREG_OFFSET_CAPTURE
-                );
-                if (count($matches) > 0) {
-                  $postCount += 1;
-                  ?>
-                    <tr>
-                      <td><a href="<?=home_url().'/'.$post->post_name?>" target="_blank"><?=$post->ID?></a></td>
-                      <td><?=$post->post_title?></td>
-                      <td><textarea><?=$post->post_content?></textarea></td>
-                      <td>
-                        <form method="post" action="">
-                          <input type="hidden" name="post_id" value="<?=$post->ID?>" />
-                          <input type="hidden" name="action" value="migrate_to_iamport_block" />
-                          <input class="button-primary" type="submit" name="iamport-options" value="마이그레이션" />
-                        </form>
-                      </td>
-                    </tr>
-                  <?php
-                }
+            foreach($posts as $post) {
+              // 숏코드를 포함하고 있는 포스트의 리스트만 렌더링한다
+              preg_match(
+                '/\[iamport_payment_button(.*)\[\/iamport_payment_button\]/',
+                $post->post_content,
+                $matches,
+                PREG_OFFSET_CAPTURE
+              );
+              if (count($matches) > 0) {
+                ?>
+                  <tr>
+                    <td><a href="<?=home_url().'/'.$post->post_name?>" target="_blank"><?=$post->ID?></a></td>
+                    <td><?=$post->post_title?></td>
+                    <td><textarea><?=$post->post_content?></textarea></td>
+                    <td>
+                      <form method="post" action="">
+                        <input type="hidden" name="post_id" value="<?=$post->ID?>" />
+                        <input type="hidden" name="action" value="migrate_to_iamport_block" />
+                        <input class="button-primary" type="submit" name="iamport-options" value="마이그레이션" />
+                      </form>
+                    </td>
+                  </tr>
+                <?php
               }
             }
             wp_reset_postdata();
             
-            if ($postCount == 0) { ?>
+            if (count($posts) === 0) { ?>
               <tr>
                 <td colspan="4"><p>마이그레이션이 필요한 포스트가 없습니다</p></td>
               </tr>

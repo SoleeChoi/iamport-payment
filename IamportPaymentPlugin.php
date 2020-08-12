@@ -76,4 +76,14 @@ function add_endpoints() {
 	flush_rewrite_rules();
 }
 
+function iamport_payment_admin_notice() {
+  if (!is_plugin_active('iamport-block/plugin.php')) {
+    $class = 'notice notice-error';
+    $link = 'edit.php?post_type=iamport_payment&page=iamport-migration';
+
+    printf('<div class="'. $class . '" style="background-color: #fff2f0;"><p style="margin: 1rem 0; font-size: 1rem;"><span style="background-color: #dc3232; color: white; padding: 3px 10px; border-radius: 3px; margin-right: 5px;">아임포트 결제 버튼 생성 플러그인</span><a href="" target="_blank">아임포트 블록 플러그인</a>으로 <a href="' . $link .'" target="_blank">마이그레이션</a> 해주세요</p></div>'); 
+  }
+}
+add_action('admin_notices', 'iamport_payment_admin_notice');
+
 new IamportPaymentShortcode();

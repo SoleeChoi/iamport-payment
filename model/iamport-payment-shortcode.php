@@ -13,14 +13,16 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 		private $api_secret;
 		private $shortcode;
 		private $payment_info;
-		private $callback;
+    private $callback;
+    private $migration_count; // TODO
 
 		public function __construct() {
 			if( is_admin() ) {
 				add_action('admin_menu', array( $this, 'iamport_admin_menu') );
 			}
 
-			add_action( 'init', array($this, 'init') );
+      add_action( 'init', array($this, 'init') );
+      add_action( 'admin_init','register_custom_bulk_action' );
 			add_action( 'wp_enqueue_scripts', array($this, 'iamport_script_enqueue'), 99 );
 			add_filter( 'query_vars', array($this, 'add_query_vars'), 0 );
 
@@ -28,8 +30,69 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 			add_action( 'wp_ajax_nopriv_get_order_uid', array($this, 'ajax_get_order_uid') );
 
 			add_action( 'add_meta_boxes', array($this, 'iamport_order_metabox') );
-			add_action( 'save_post', array($this, 'save_iamport_order_metabox') );
-		}
+      add_action( 'save_post', array($this, 'save_iamport_order_metabox') );
+
+      add_filter( 'bulk_actions-edit-iamport_payment', array($this, 'register_custom_bulk_actions') );
+      add_filter( 'handle_bulk_actions-edit-iamport_payment', array($this, 'custom_bulk_action_handler'), 10, 3 );
+
+      add_action( 'admin_notices', array($this, 'custom_bulk_actions_notices') );
+    }
+
+    public function register_custom_bulk_actions($bulk_actions) {
+      $bulk_actions['copy-to-iamport-block'] = __('아임포트 결제내역 복사', 'iamport-payment');
+      return $bulk_actions;
+    }
+
+    public function custom_bulk_action_handler( $redirect_to, $doaction, $post_ids ) {
+      if ( $doaction !== 'copy-to-iamport-block' ) {
+        return $redirect_to;
+      }
+
+      $migration_count = 0;
+      foreach ($post_ids as $post_id) {
+        $migration_status = get_post_meta($post_id, 'migration_status', true);
+        if ($migration_status != 'finished') {
+          // 이미 마이그레이션이 완료된 데이터는 제외한다
+          $migration_count += 1;
+
+          // post row를 복사한다
+          $post = get_post($post_id);
+          $post->ID = 0; // 0일때 insert되고, 0이 아닌 값일때 update된다
+          $post->post_type = 'iamport_block';
+          $inserted_post_id = wp_insert_post((array)$post);
+
+          /**
+           * post meta row를 복사한다
+           * 복사가 완료된 데이터의 migration_status는 finished로 변경한다
+           */
+          update_post_meta($post_id, 'migration_status', 'finished');
+
+          $post_meta = get_post_meta($post_id);
+          foreach ($post_meta as $meta_key => $meta_value) {
+            // 단순히 $meta_value[0]을 참조하면 data type이 무조건 string이다
+            $value = get_post_meta($post_id, $meta_key, true);
+            add_post_meta($inserted_post_id, $meta_key, $value, true);
+          }
+        }
+      }
+      $this->migration_count = $migration_count;
+
+      $redirect_to = add_query_arg( 'copied-to-iamport-block', count( $post_ids ), $redirect_to );
+      return $redirect_to;
+    }
+
+    function custom_bulk_actions_notices() {
+      if (!empty($_REQUEST['copied-to-iamport-block'])) {
+        $class = 'updated notice is-dismissable';
+    
+        printf(
+          '<div class="%1$s" style="margin-left: 0;"><p>' .
+          __('결제내역이 마이그레이션 되었습니다.', 'iamport-block') .
+          '</p></div>',
+          esc_attr( $class )
+        ); 
+      }
+    }
 
 		public function iamport_admin_menu() {
 			add_submenu_page(
@@ -48,12 +111,21 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 			// 	'administrator',
 			// 	'iamport-inventory',
 			// 	function() { echo require_once(dirname(__FILE__).'/../view/admin/inventory.php'); }
-			// );
+      // );
+      
+      add_submenu_page(
+				'edit.php?post_type=iamport_payment',
+				'아임포트 마이그레이션',
+				'아임포트 마이그레이션',
+				'administrator',
+				'iamport-migration',
+				function() { echo require_once(dirname(__FILE__).'/../view/admin/migration.php'); }
+			);
 
 			add_submenu_page(
 				'edit.php?post_type=iamport_payment',
-				'아임포트 숏코드 메뉴얼',
-				'아임포트 숏코드 메뉴얼',
+				'아임포트 숏코드 매뉴얼',
+				'아임포트 숏코드 매뉴얼',
 				'administrator',
 				'iamport-shortcode',
 				function() { echo require_once(dirname(__FILE__).'/../view/admin/manual.php'); }
@@ -244,13 +316,14 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 		}
 
 		public function iamport_payment_columns($columns) {
-			$columns['title_uid'] 			= '주문명<br>주문번호';
-			$columns['order_status'] 		= '주문상태';
-			$columns['order_paid_amount']	= '요청금액(면세금액)<br>결제금액';
-			$columns['pay_method_date'] 	= '결제수단<br>결제시각';
-			$columns['buyer_info'] 			= '이름<br>이메일<br>전화번호<br>배송주소';
-			$columns['extra_fields'] 		= '부가정보';
-			$columns['attached_files'] 		= '첨부파일';
+			$columns['title_uid'] 			= __('주문명', 'iamport-payment').'<br>'.__('주문번호', 'iamport-payment');
+			$columns['order_status'] 		= __('주문상태', 'iamport-payment');
+			$columns['order_paid_amount']	= __('요청금액(면세금액)', 'iamport-payment').'<br>'.__('결제금액', 'iamport-payment');
+			$columns['pay_method_date'] 	= __('결제수단', 'iamport-payment').'<br>'.__('결제시각', 'iamport-payment');
+			$columns['buyer_info'] 			= __('이름', 'iamport-payment').'<br>'.__('이메일', 'iamport-payment').'<br>'.__('전화번호', 'iamport-payment').'<br>'.__('배송주소', 'iamport-payment');
+			$columns['extra_fields'] 		= __('부가정보', 'iamport-payment');
+      $columns['attached_files'] 		= __('첨부파일', 'iamport-payment');
+      $columns['migration_status'] = __('마이그레이션 상태', 'iamport-payment');
 
 			unset($columns['title']);
 			unset($columns['date']);
@@ -348,7 +421,19 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 					}
 
 					break;
-				}
+        }
+        
+        case 'migration_status': {
+          $migration_status = $iamport_order->get_migration_status();
+          $migration_status_style = 'color: white; padding: 5px 10px; border-radius: 3px;';
+          if ($migration_status == 'finished') {
+            echo '<span style="' . $migration_status_style .' background-color: #52c41a">완료</span>';
+          } else {
+            echo '<span style="' . $migration_status_style . ' background-color: #faad14">필요</span>';
+          }
+
+          break;
+        }
 			}
 		}
 

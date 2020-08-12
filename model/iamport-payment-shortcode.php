@@ -317,7 +317,6 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 			$columns['buyer_info'] 			= __('이름', 'iamport-payment').'<br>'.__('이메일', 'iamport-payment').'<br>'.__('전화번호', 'iamport-payment').'<br>'.__('배송주소', 'iamport-payment');
 			$columns['extra_fields'] 		= __('부가정보', 'iamport-payment');
       $columns['attached_files'] 		= __('첨부파일', 'iamport-payment');
-      $columns['migration_status'] = __('마이그레이션 상태', 'iamport-payment');
 
 			unset($columns['title']);
 			unset($columns['date']);
@@ -415,18 +414,6 @@ if ( !class_exists('IamportPaymentShortcode') ) {
 					}
 
 					break;
-        }
-        
-        case 'migration_status': {
-          $migration_status = $iamport_order->get_migration_status();
-          $migration_status_style = 'color: white; padding: 5px 10px; border-radius: 3px;';
-          if ($migration_status == 'finished') {
-            echo '<span style="' . $migration_status_style .' background-color: #52c41a">완료</span>';
-          } else {
-            echo '<span style="' . $migration_status_style . ' background-color: #faad14">필요</span>';
-          }
-
-          break;
         }
 			}
 		}

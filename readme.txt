@@ -192,7 +192,7 @@ https://www.facebook.com/iamportservice
 = 0.9.11 =
 * input text field에 custom placeholder 속성 추가
 * input text field에 datafor 속성 추가
-* 추가 속성에 대한 아임포트 숏코드 메뉴얼 업데이트
+* 추가 속성에 대한 아임포트 숏코드 매뉴얼 업데이트
 
 = 0.9.10 =
 * 프로토콜에 맞는 daum postcode API 불러오도록 설정

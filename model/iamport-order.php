@@ -160,7 +160,11 @@ if ( !class_exists('IamportOrder') ) {
 
 		public function get_currency() {
 			return get_post_meta( $this->post->ID, 'currency', true);
-		}
+    }
+    
+    public function get_migration_status() {
+      return get_post_meta( $this->post->ID, 'migration_status', true);
+    }
 
 		public function is_free() {
 			return $this->get_order_amount() == 0;

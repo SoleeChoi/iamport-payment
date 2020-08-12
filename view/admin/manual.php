@@ -5,7 +5,7 @@
 	ob_start();
 ?>
 	<div class="wrap iamport-manual-page">
-		<h2>아임포트 숏코드 메뉴얼</h2>
+		<h2>아임포트 숏코드 매뉴얼</h2>
 		<h3>1. [iamport_payment_button] 숏코드를 추가하면, "아임포트 결제버튼"이 생성됩니다</h3>
 		<div class="shortcode-box">
 			<img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/payment-button.png">

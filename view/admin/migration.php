@@ -106,7 +106,7 @@
         <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/install-plugin.png" alt="아임포트 블록 설치"/>
       </div>
       <p class="iamport-block-left">
-        설치가 완료되면 네비게이션 메뉴에 <code>아임포트 결제내역</code>이 추가되고 하위 메뉴로 <code>아임포트 설정</code>, <code>아임포트 블록 매뉴얼</code>이 자동으로 셋팅됩니다. 각 메뉴의 역할은 기존의 아임포트 숏코드 플러그인과 동일합니다.
+        설치가 완료되면 네비게이션 메뉴에 <code>아임포트 결제내역</code>이 추가되고 하위 메뉴로 <code>아임포트 설정</code>, <code>아임포트 블록 매뉴얼</code>이 자동으로 셋팅됩니다. 각 메뉴의 역할은 기존의 아임포트 결제버튼 생성 플러그인과 동일합니다.
       </p>
       <div class="iamport-block-left iamport-text-center">
         <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/navigation.png" alt="아임포트 블록 네비게이션 메뉴"/>
@@ -118,10 +118,10 @@
       <h2><span>STEP3</span>아임포트 결제내역 마이그레이션</h2>
       <div class="iamport-block-left">
         <p>
-          기존에 아임포트 숏코드 플러그인으로 결제된 내역을, 새 블록 플러그인으로 마이그레이션 한 후에도 확인해보실 수 있습니다. 이를 위해서는 기존의 결제내역을 <code>마이그레이션(복사)</code> 하셔야 합니다.
+          기존에 아임포트 결제버튼 생성 플러그인으로 결제된 내역을, 새 블록 플러그인으로 마이그레이션 한 후에도 확인해보실 수 있습니다. 이를 위해서는 기존의 결제내역을 <code>마이그레이션(복사)</code> 하셔야 합니다.
         </p>
         <p>
-          결제내역 복사를 위해 기존의 숏코드 플러그인의 결제내역(왼쪽 내비게이션 매뉴 <code>아임포트 결제목록</code> 클릭)으로 이동합니다. 상단에 <code>결제내역 일괄 복사</code>라는 버튼이 생긴 것을 확인해보실 수 있습니다.
+          결제내역 복사를 위해 기존의 결제버튼 생성 플러그인의 결제내역(왼쪽 내비게이션 매뉴 <code>아임포트 결제목록</code> 클릭)으로 이동합니다. 상단에 <code>결제내역 일괄 복사</code>라는 버튼이 생긴 것을 확인해보실 수 있습니다.
         </p>
       </div>
       <div class="iamport-block-left iamport-text-center">
@@ -147,7 +147,7 @@
         <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-whole-lists.png" alt="결제내역 일괄 복구"/>
       </div>
       <p class="iamport-block-left">
-        <code>결제내역 일괄 복구</code> 버튼을 누르면 총 3건의 결제내역(주문번호 <code>07295721_5f211dd12951b</code>, <code>07295453_5f211d3d60e79</code>, <code>07295045_5f211c4581c19</code>)이 다시 아임포트 숏코드 플러그인 결제목록으로 이동한 것을 확인해보실 수 있습니다.
+        <code>결제내역 일괄 복구</code> 버튼을 누르면 총 3건의 결제내역(주문번호 <code>07295721_5f211dd12951b</code>, <code>07295453_5f211d3d60e79</code>, <code>07295045_5f211c4581c19</code>)이 다시 아임포트 결제버튼 생성 플러그인 결제목록으로 이동한 것을 확인해보실 수 있습니다.
       </p>
       <div class="iamport-block-left">
         <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-whole-lists-result-1.png" alt="결제내역 일괄 복구 결과 1"/>
@@ -224,7 +224,7 @@
       </table>
     </div>
     <div class="iamport-block-box">
-      <h2><span>STEP5</span>아임포트 숏코드 플러그인 삭제</h2>
+      <h2><span>STEP5</span>아임포트 결제버튼 생성 플러그인 삭제</h2>
       <p>
         이제 <code>아임포트 블록 플러그인</code> 사용을 위한 모든 작업이 끝났습니다. 아임포드 결제버튼 생성 플러그인(<code>iamport-payment</code>)을 삭제(또는 비활성화) 하실 수 있습니다.
       </p>

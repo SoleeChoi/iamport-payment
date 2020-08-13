@@ -2,7 +2,7 @@
 
 global $wpdb;
 
-if ( isset($_POST['action']) && $_POST['action'] === "migrate_to_iamport_block") {  
+if ( isset($_POST['action']) && $_POST['action'] === "copy_all_to_iamport_block") {  
   // 모든 결제내역 일괄 복사
   $table = 'wp_posts';
   $data = array(
@@ -251,11 +251,19 @@ if ( !class_exists('IamportPaymentShortcode') ) {
     
     public function add_custom_action_button()
     {
-      if (get_query_var('post_type') === 'iamport_payment') {
+      if (
+        get_query_var('post_type') === 'iamport_payment' &&
+        wp_count_posts('iamport_payment')->publish > 0
+      ) {
+        /**
+         * 현재 아임포트 결제버튼 생성 플러그인의 결제목록 페이지이고
+         * 복사할 수 있는 결제내역이 존재하는 경우에 한해
+         * 버튼을 렌더링한다
+         */
         ?>
           <script type="text/javascript">
             jQuery(document).ready(function($) {
-              jQuery(jQuery(".wp-heading-inline")[0]).after("<form method='post' action='' style='display: inline-block;'><input type='hidden' name='action' value='migrate_to_iamport_block' /><input type='submit' class='button-primary' style='margin-left: 5px;' value='결제내역 일괄 복사' /></form>");
+              jQuery(jQuery(".wp-heading-inline")[0]).after("<form method='post' action='' style='display: inline-block;'><input type='hidden' name='action' value='copy_all_to_iamport_block' /><input type='submit' class='button-primary' style='margin-left: 5px;' value='결제내역 일괄 복사' /></form>");
             });
           </script>
         <?php

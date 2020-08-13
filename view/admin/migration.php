@@ -7,7 +7,7 @@
   global $wpdb;
 
   // 각 포스트의 마이그레이션 버튼 눌렀을때
-	if ( isset($_POST['action']) && $_POST['action'] == "migrate_to_iamport_block") {
+	if ( isset($_POST['action']) && $_POST['action'] === "migrate_to_iamport_block") {
     $postId = $_POST['post_id'];
     $postContent = get_post($postId)->post_content;
 
@@ -116,25 +116,52 @@
 
     <div class="iamport-block-box">
       <h2><span>STEP3</span>아임포트 결제내역 마이그레이션</h2>
-      <p>
-        기존에 아임포트 숏코드 플러그인으로 결제된 내역을, 새 블록 플러그인에서도 확인해보실 수 있습니다. 이를 위해서는 기존의 결제내역을 <code>마이그레이션(복사)</code> 하셔야 합니다. 결제내역 복사를 위해 기존의 숏코드 플러그인의 결제내역(왼쪽 내비게이션 매뉴 <code>아임포트 결제목록</code> 클릭)으로 이동합니다. 오른쪽에 <code>마이그레이션 상태</code> 칼럼이 추가된 것을 확인해보실 수 있습니다. 이는 말 그대로 마이그레이션이 필요한지, 이미 완료됐는지를 나타내는 지표입니다.
-      </p>
-      <div class="iamport-text-center">
-        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/migration.png" alt="마이그레이션"/>
+      <div class="iamport-block-left">
+        <p>
+          기존에 아임포트 숏코드 플러그인으로 결제된 내역을, 새 블록 플러그인으로 마이그레이션 한 후에도 확인해보실 수 있습니다. 이를 위해서는 기존의 결제내역을 <code>마이그레이션(복사)</code> 하셔야 합니다.
+        </p>
+        <p>
+          결제내역 복사를 위해 기존의 숏코드 플러그인의 결제내역(왼쪽 내비게이션 매뉴 <code>아임포트 결제목록</code> 클릭)으로 이동합니다. 상단에 <code>결제내역 일괄 복사</code>라는 버튼이 생긴 것을 확인해보실 수 있습니다.
+        </p>
       </div>
-      <p>
-        마이그레이션이 필요한 결제내역을 선택(체크박스)하고 상단의 <code>아임포트 결제내역 마이그레이션</code>을 선택해 적용 버튼을 누릅니다. 마이그레이션에 성공하면 상단에 완료되었다는 메시지가 뜹니다.
-      </p>
-      <div class="iamport-text-center">
-        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/migration-over.png" alt="마이그레이션 완료"/>
+      <div class="iamport-block-left iamport-text-center">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/copy-whole-lists.png" alt="결제내역 일괄 복사"/>
       </div>
-      <p>
-        마이그레이션 완료된 결제내역은 새 블록 플러그인의 결제내역(왼쪽 내비게이션 메뉴 <code>아임포트 결제내역</code> 클릭)에서 확인해보실 수 있습니다.
+      <p class="iamport-block-left">
+        <code>결제내역 일괄 복사</code> 버튼을 누르면 총 3건의 결제목록(주문번호 <code>07295721_5f211dd12951b</code>, <code>07295453_5f211d3d60e79</code>, <code>07295045_5f211c4581c19</code>)이 모두 새 블록 플러그인의 결제내역으로 이동한 것을 확인해보실 수 있습니다. 만약 총 100건의 결제내역이 존재했다면, 100건이 모두 한번에 복사됩니다.
       </p>
-      <div class="iamport-text-center">
-        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/migration-result.png" alt="마이그레이션 결과"/>
+      <div class="iamport-block-left">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/copy-whole-lists-result-1.png" alt="결제내역 일괄 복사 결과 1"/>
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/copy-whole-lists-result-2.png" alt="결제내역 일괄 복사 결과 2"/>
       </div>
+      <p class="iamport-block-left">
+        한꺼번에 모든 결제내역을 복사하는 것이 아닌, 원하는 결제내역만 복사할 수도 있습니다. 복사를 원하는 결제건을 선택(체크박스)하고, 일괄 작업 메뉴에서 <code>아임포트 결제내역 복사</code>를 선택해 <code>적용</code> 버튼을 눌러주세요.
+      </p>
+      <div class="iamport-block-left iamport-text-center">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/copy-lists.png" alt="결제내역 복사"/>
+      </div>
+      <p class="iamport-block-left">
+        복사 된 결제내역을 다시 복구할 수도 있습니다. 새 블록 플러그인의 결제내역으로 이동해, <code>결제내역 일괄 복구</code> 버튼을 눌러주세요.
+      </p>
+      <div class="iamport-block-left iamport-text-center">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-whole-lists.png" alt="결제내역 일괄 복구"/>
+      </div>
+      <p class="iamport-block-left">
+        <code>결제내역 일괄 복구</code> 버튼을 누르면 총 3건의 결제내역(주문번호 <code>07295721_5f211dd12951b</code>, <code>07295453_5f211d3d60e79</code>, <code>07295045_5f211c4581c19</code>)이 다시 아임포트 숏코드 플러그인 결제목록으로 이동한 것을 확인해보실 수 있습니다.
+      </p>
+      <div class="iamport-block-left">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-whole-lists-result-1.png" alt="결제내역 일괄 복구 결과 1"/>
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-whole-lists-result-2.png" alt="결제내역 일괄 복구 결과 2"/>
+      </div>
+      <p class="iamport-block-left">
+        한꺼번에 모든 결제내역을 복구하는 것이 아닌, 원하는 결제내역만 복구할 수도 있습니다. 복구를 원하는 결제건을 선택(체크박스)하고, 일괄 작업 메뉴에서 <code>아임포트 결제내역 복구</code>를 선택해 <code>적용</code> 버튼을 눌러주세요.
+      </p>
+      <div class="iamport-block-left iamport-text-center">
+        <img src="<?=plugin_dir_url( __FILE__ )?>../../assets/img/rollback-lists.png" alt="결제내역 복구"/>
+      </div>
+      <div class="iamport-block-clear"></div>
     </div>
+
     <div class="iamport-block-box">
       <h2><span>STEP4</span>아임포트 숏코드 마이그레이션</h2>
       <p>
@@ -191,10 +218,8 @@
             if (count($posts) === 0) { ?>
               <tr>
                 <td colspan="4"><p>마이그레이션이 필요한 포스트가 없습니다</p></td>
-              </tr>
-          <?php
-            }
-          ?>
+              </tr><?php
+            } ?>
         </tbody>
       </table>
     </div>

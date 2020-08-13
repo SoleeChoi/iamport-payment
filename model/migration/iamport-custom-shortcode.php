@@ -35,12 +35,28 @@ if ( !class_exists('IamportCustomShortcode') ) {
       );
     }
     
-    private function getType($type) {
+    private function getType($type, $a) {
+      $dataFor = $a['data-for'];
       switch ($type) {
         case 'check':
           return 'checkbox';
         case 'select':
           return 'dropdown';
+        case 'text': {
+          if ($dataFor === 'name') {
+            return 'buyer_name';
+          }
+          if ($dataFor === 'email') {
+            return 'buyer_email';
+          }
+          if ($dataFor === 'phone') {
+            return 'buyer_tel';
+          }
+          if ($dataFor === 'address') {
+            return 'buyer_addr';
+          }
+          return $type;
+        }
         default:
           return $type;
       }
